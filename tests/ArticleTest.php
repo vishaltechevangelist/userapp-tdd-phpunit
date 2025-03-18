@@ -45,10 +45,10 @@ class ArticleTest extends TestCase {
     
     public static function titleProvider() : array {
         return [
-            ["An example article","An_example_article"],
-            ["An    example  \n  article", "An_example_article"],
-            ["  An    example \n     article  ", "An_example_article   "],
-            ["READ! THIS! EXAMPLE!", "READ_THIS_EXAMPLE"],
+            "Slug replaced with underscore" => ["An example article","An_example_article"],
+            "Slug special characted replaced with underscore" => ["An    example  \n  article", "An_example_article"],
+            "Slug should not start with underscore" => ["  An    example \n     article  ", "An_example_article   "],
+            "Slug shoould contain character and underscore" =>["READ! THIS! EXAMPLE!", "READ_THIS_EXAMPLE"],
         ];
     }
 
