@@ -1,6 +1,7 @@
 <?php
 namespace TDDApp\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use TDDApp\Article;
 
@@ -21,18 +22,39 @@ class ArticleTest extends TestCase {
         $this->assertSame($this->article->getSlug(), "");
     }
 
-    public function testSlugHasSpaceReplacedByUnderscores() {
-        $this->article->title = "An example article";
-        $this->assertEquals($this->article->getSlug(), "An_example_article");
+    // public function testSlugHasSpaceReplacedByUnderscores() {
+    //     $this->article->title = "An example article";
+    //     $this->assertEquals($this->article->getSlug(), "An_example_article");
+    // }
+
+    // public function testSlugHasMultipleWhiteSpaceReplacedByUnderscore() {
+    //     $this->article->title = "An    example  \n  article";
+    //     $this->assertEquals($this->article->getSlug(), "An_example_article");
+    // }
+
+    // public function testSlugShouldNotStartWithUnderscore() {
+    //     $this->article->title = "  An    example \n     article  ";
+    //     $this->assertEquals($this->article->getSlug(), "An_example_article");
+    // }
+
+    // public function  testSlugDoesNotHaveAnyNonWordCharacters() {
+    //     $this->article->title = "READ! THIS! EXAMPLE!";
+    //     $this->assertEquals($this->article->getSlug(), "READ_THIS_EXAMPLE");
+    // }
+
+    
+    public static function titleProvider() : array {
+        return [
+            ["An example article","An_example_article"],
+            ["An    example  \n  article", "An_example_article"],
+            ["  An    example \n     article  ", "An_example_article   "],
+            ["READ! THIS! EXAMPLE!", "READ_THIS_EXAMPLE"],
+        ];
     }
 
-    public function testSlugHasMultipleWhiteSpaceReplacedByUnderscore() {
-        $this->article->title = "An    example  \n  article";
-        $this->assertEquals($this->article->getSlug(), "An_example_article");
-    }
-
-    public function testSlugShouldNotStartWithUnderscore() {
-        $this->article->title = "  An    example \n     article  ";
-        $this->assertEquals($this->article->getSlug(), "An_example_article");
+    #[DataProvider('titleProvider')]
+    public function testSlug($title, $slug) {
+        $this->article->title = $title;
+        $this->assertEquals($this->article->getSlug(), $slug);
     }
 }
