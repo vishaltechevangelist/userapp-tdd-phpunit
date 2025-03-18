@@ -3,12 +3,12 @@ namespace TDDApp;
 
 class Article {
     public $title;
-    public function __construct()
-    {
-        
-    }
 
     public function getSlug(): string {
-        return "";
+        $slug = $this->title??"";
+        if ($slug != "") {
+            $slug = str_replace(" ", "_", $slug);
+        }
+        return $slug;
     }
 }
